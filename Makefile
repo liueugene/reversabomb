@@ -3,7 +3,7 @@ BOARD_TAG     = mega
 BOARD_SUB     = atmega2560
 MONITOR_PORT  = /dev/ttyACM0
 
-USER_LIB_PATH = /home/eugene/reversabomb/libraries
+USER_LIB_PATH = ./libraries
 ARDUINO_LIBS  = SPI Adafruit_DotStar
 
 # uncomment these lines if needed to fit system configuration
