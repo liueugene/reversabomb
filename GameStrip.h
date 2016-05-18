@@ -1,3 +1,6 @@
+#ifndef __gamestrip_h__
+#define __gamestrip_h__
+
 class Adafruit_DotStar;
 
 class GameStrip
@@ -13,3 +16,6 @@ private:
     int m_end;
     int m_position;
 };
+
+
+#endif /* __gamestrip_h__ */
