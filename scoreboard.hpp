@@ -17,7 +17,9 @@ public:
     scoreboard(Adafruit_DotStar *strip);
     void loseLife(bool TEAM); //0 left, 1 right
     void update();
-
+    bool rightDead();
+    bool leftDead();
+    
 private:
     Adafruit_DotStar *m_strip;
     int m_rightLife;

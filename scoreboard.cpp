@@ -50,3 +50,13 @@ void scoreboard::update()
     m_update = false;
     return;
 }
+
+bool scoreboard::rightDead()
+{
+    return m_rightLife < 1;
+}
+
+bool scoreboard::leftDead()
+{
+    return m_leftLife < 1;
+}
