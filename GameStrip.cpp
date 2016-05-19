@@ -3,13 +3,16 @@
 #include <Adafruit_DotStar.h>
 
 GameStrip::GameStrip(Adafruit_DotStar *strip)
-: m_strip(strip), m_position(9), m_direction(true)
+: m_strip(strip), m_position(9), m_direction(rand() % 2)
 {
+    m_strip->begin();
+    m_strip->clear();
+    m_strip->show();
 }
 
 void GameStrip::moveBomb()
 {
-    if ((m_position == 1 && m_direction) || (m_position == 24 && !m_direction))
+    if ((m_position == 1 && m_direction) || (m_position == 17 && !m_direction))
         return;
     
     if (m_direction) {//    R iGhT//
@@ -29,4 +32,26 @@ void GameStrip::moveBomb()
 void GameStrip::setDirection(bool right)
 {
     m_direction = right;
+}
+
+int GameStrip::isEnd()
+{
+    if(m_position == 1 && m_direction)
+    {
+        return 1; 
+    }
+    else if(m_position == 17 && !m_direction)
+    {
+        return -1; 
+    }
+    else{
+        return 0; 
+    }
+}
+
+void GameStrip::resetBomb()
+{
+    m_direction = !m_direction; 
+    m_strip->setPixelColor(m_position, 0); 
+    m_position = 9; 
 }

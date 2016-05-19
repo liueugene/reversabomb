@@ -11,10 +11,10 @@
 
 class Adafruit_DotStar;
 
-class scoreboard
+class Scoreboard
 {
 public:
-    scoreboard(Adafruit_DotStar *strip);
+    Scoreboard(Adafruit_DotStar *strip);
     void loseLife(bool TEAM); //0 left, 1 right
     void update();
     bool rightDead();

@@ -5,8 +5,9 @@ BOARD_SUB     = atmega2560
 ifeq ($(OS),Windows_NT)
 	MONITOR_PORT  = com3
 	# To work on Windows, create a symlink with mklink /d "C:\Arduino" "C:\Program Files (x86)\Arduino"
-	ARDUINO_DIR   = ../../../Arduino
-	AVR_TOOLS_DIR = ../../../Arduino/hardware/tools/avr
+	ARDUINO_DIR   = ../../../../Arduino
+	ARDMK_DIR     = ./arduino-mk
+	AVR_TOOLS_DIR = ../../../../Arduino/hardware/tools/avr
 	MONITOR_CMD   = putty
 	MONITOR_PARMS = 8,1,n,N
 else
@@ -21,7 +22,7 @@ ARDUINO_LIBS  = SPI Adafruit_DotStar
 #ARDMK_DIR     = 
 #AVR_TOOLS_DIR = 
 
-#CFLAGS_STD = -g
-#CXXFLAGS_STD = -g
+CFLAGS_STD = -g
+CXXFLAGS_STD = -g
 
 include ./arduino-mk/Arduino.mk

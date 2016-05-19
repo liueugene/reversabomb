@@ -9,6 +9,8 @@ public:
     GameStrip(Adafruit_DotStar *strip);
     void moveBomb();
     void setDirection(bool right);
+    int isEnd(); 
+    void resetBomb();
 private:
     Adafruit_DotStar *m_strip;
     bool m_direction; //0 left, 1 right
