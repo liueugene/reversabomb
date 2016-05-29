@@ -8,15 +8,21 @@ class GameStrip
 public:
     GameStrip(Adafruit_DotStar *strip);
     void moveBomb();
-    void setDirection(bool right);
+    void show();
+    void setDirection(int playerNum);
     int isEnd(); 
     void resetBomb();
+    int get_position(); 
+    void selectStrip(bool select, int playerNum); 
+    bool isSelected(int playerNum); 
+    bool get_dir();
 private:
     Adafruit_DotStar *m_strip;
     bool m_direction; //0 left, 1 right
     int m_start;
     int m_end;
     int m_position;
+    bool m_select[2];
 };
 
 

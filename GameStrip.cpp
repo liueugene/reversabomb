@@ -5,6 +5,8 @@
 GameStrip::GameStrip(Adafruit_DotStar *strip)
 : m_strip(strip), m_position(9), m_direction(rand() % 2)
 {
+    m_select[0] = false;
+    m_select[1] = false;
     m_strip->begin();
     m_strip->clear();
     m_strip->show();
@@ -26,12 +28,22 @@ void GameStrip::moveBomb()
         m_position++;
         
     }
+}
+
+void GameStrip::show()
+{
     m_strip->show();
 }
 
-void GameStrip::setDirection(bool right)
+void GameStrip::setDirection(int playerNum)
 {
-    m_direction = right;
+    if(playerNum) {
+        m_direction = true;
+        m_strip->setPixelColor(m_position, 0x0000FF);
+    } else {
+        m_direction = false;
+        m_strip->setPixelColor(m_position, 0xFF0000);
+    }
 }
 
 int GameStrip::isEnd()
@@ -54,4 +66,30 @@ void GameStrip::resetBomb()
     m_direction = !m_direction; 
     m_strip->setPixelColor(m_position, 0); 
     m_position = 9; 
+}
+
+void GameStrip::selectStrip(bool select, int playerNum)
+{
+    int pixelNum = (playerNum == 1) ? 18 : 0;
+
+    if(select){
+        m_strip->setPixelColor(pixelNum, 0x00FF00);
+        m_select[playerNum] = true;
+    }
+    else{
+        m_strip->setPixelColor(pixelNum, 0x000000); 
+        m_select[playerNum] = false;
+    }
+
+
+}
+
+bool GameStrip::get_dir()
+{
+    return m_direction; 
+}
+
+bool GameStrip::isSelected(int playerNum)
+{
+    return m_select[playerNum]; 
 }
