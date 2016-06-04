@@ -2,19 +2,25 @@
 #include <SPI.h>
 #include <Adafruit_DotStar.h>
 
-GameStrip::GameStrip(Adafruit_DotStar *strip)
-: m_strip(strip), m_position(9), m_direction(rand() % 2)
+GameStrip::GameStrip(Adafruit_DotStar *strip, bool startDir)
+: m_strip(strip), m_position(9), m_direction(startDir)
 {
     m_select[0] = false;
     m_select[1] = false;
     m_strip->begin();
     m_strip->clear();
     m_strip->show();
+    if(startDir)
+    {
+        m_strip->setPixelColor(m_position, 0x0000FF);
+    }
+    else
+        m_strip->setPixelColor(m_position, 0xFF0000); 
 }
 
 void GameStrip::moveBomb()
 {
-    if ((m_position == 1 && m_direction) || (m_position == 17 && !m_direction))
+    if ((m_position == 0 && m_direction) || (m_position == 18 && !m_direction))
         return;
     
     if (m_direction) {//    R iGhT//
@@ -48,11 +54,11 @@ void GameStrip::setDirection(int playerNum)
 
 int GameStrip::isEnd()
 {
-    if(m_position == 1 && m_direction)
+    if(m_position == 0 && m_direction)
     {
         return 1; 
     }
-    else if(m_position == 17 && !m_direction)
+    else if(m_position == 18 && !m_direction)
     {
         return -1; 
     }
@@ -66,6 +72,12 @@ void GameStrip::resetBomb()
     m_direction = !m_direction; 
     m_strip->setPixelColor(m_position, 0); 
     m_position = 9; 
+    if(m_direction)
+    {
+        m_strip->setPixelColor(m_position, 0x0000FF);
+    }
+    else
+        m_strip->setPixelColor(m_position, 0xFF0000);
 }
 
 void GameStrip::selectStrip(bool select, int playerNum)

@@ -9,12 +9,12 @@ using namespace std;
 
 const int NUMPIXELS = 19;
 const int TICKLENGTH = 25;
-int tickCount = 0;
+int tickCount = 1;
 
 int main()
 {
 
-    
+
     // strip2.begin();
     // strip2.clear();
     // strip2.show();
@@ -26,7 +26,7 @@ int main()
         // Buttons will now be pulled HIGH when not pushed and LOW when active because it's easier
         // to initialize a button do pinMode(ButtonPin, INPUT_PULLUP)
 
-    
+
     //SET UP 
 
     //initialize timer registers
@@ -53,18 +53,17 @@ int main()
     Adafruit_DotStar strip3 = Adafruit_DotStar(NUMPIXELS, 40, 41, DOTSTAR_BGR);
     Adafruit_DotStar score = Adafruit_DotStar(14, 52, 53, DOTSTAR_BGR);
 
-    strip.setBrightness(80);
-    strip2.setBrightness(80);
-    strip3.setBrightness(80);
-    score.setBrightness(80);
+    strip.setBrightness(50);
+    strip2.setBrightness(50);
+    strip3.setBrightness(50);
 
 
     //initialize gamestrips
     Scoreboard scoreboard = Scoreboard(&score); 
     GameStrip gamestrips[] = {
-        GameStrip(&strip), //middle
-        GameStrip(&strip2), //top
-        GameStrip(&strip3) //bottom
+        GameStrip(&strip, 1), //middle
+        GameStrip(&strip2,0), //top
+        GameStrip(&strip3,1), //bottom
     };
 
     //initialize button states
@@ -77,14 +76,40 @@ int main()
     gamestrips[1].selectStrip(true, 0); 
     gamestrips[1].selectStrip(true, 1); 
 
+    //Game Start
+    while(digitalRead(6) || digitalRead(12))
+    {
+        continue;
+
+    }
+    delay(500);
+
     //Game
     bool isOver = true; 
+    byte speed = 50;
+
     while (isOver) {
+
+        if (millis() < 10000)
+            speed = 50;
+        else if (millis() <15000)
+            speed = 40;
+        else if (millis() < 20000)
+            speed = 30;
+        else if (millis() < 25000)
+            speed = 20;
+        else if(millis() < 30000)
+            speed = 10; 
+        else 
+            speed = 5; 
 
         for(int i = 0; i < 3; i++)
         {
-            if (tickCount % 50 == 0) {
-            gamestrips[i].moveBomb();
+            gamestrips[i].show();
+
+            if (tickCount % speed == 0) {
+                //gamestrips[i].show(); 
+                gamestrips[i].moveBomb();
             }
 
             if(gamestrips[i].isEnd() == -1) // left
@@ -98,8 +123,6 @@ int main()
                 gamestrips[i].resetBomb(); 
             }
             scoreboard.update();
-
-            gamestrips[i].show();
 
             if(scoreboard.rightDead())
             {
@@ -119,7 +142,6 @@ int main()
             if(temp1 == LOW && temp1 != prev_state_left[p] && cur_selection[p] != 0) // move player left
             {
                 gamestrips[cur_selection[p]--].selectStrip(false, p);
-                gamestrips[cur_selection[p]].selectStrip(true, p);
             }
             prev_state_left[p] = temp1;
 
@@ -128,9 +150,10 @@ int main()
             if(temp2 == LOW && temp2 != prev_state_right[p] && cur_selection[p] != 2) // move player right
             {
                 gamestrips[cur_selection[p]++].selectStrip(false, p);
-                gamestrips[cur_selection[p]].selectStrip(true, p);
             }
             prev_state_right[p] = temp2;
+
+            gamestrips[cur_selection[p]].selectStrip(true, p);
 
             int temp = digitalRead(6 + p *6); 
             if (temp == LOW && temp != prev_state_send[p] && gamestrips[cur_selection[p]].isSelected(p)) {
@@ -140,8 +163,12 @@ int main()
 
         }
 
+        for (int i = 0; i < 3; i++)
+            gamestrips[i].show();
+
         delay(TICKLENGTH);
         tickCount = (tickCount + 1) % (1000/TICKLENGTH);
     }
+
     return 0;
 }

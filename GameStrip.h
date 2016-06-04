@@ -6,7 +6,7 @@ class Adafruit_DotStar;
 class GameStrip
 {
 public:
-    GameStrip(Adafruit_DotStar *strip);
+    GameStrip(Adafruit_DotStar *strip, bool startDir);
     void moveBomb();
     void show();
     void setDirection(int playerNum);

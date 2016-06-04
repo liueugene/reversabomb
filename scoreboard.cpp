@@ -16,17 +16,17 @@ Scoreboard::Scoreboard(Adafruit_DotStar *strip)
 {
 	m_strip->begin();
 	m_strip->clear();
-	m_strip->setBrightness(100);
+	m_strip->setBrightness(50);
     this->update();
 }
 
 void Scoreboard::loseLife(bool TEAM) //0 left, 1 right
 {
     if(TEAM)
-        m_rightLife--;
+        m_leftLife--;
     
     else
-        m_leftLife--;
+        m_rightLife--;
  
     m_update = true;
     
@@ -42,12 +42,12 @@ void Scoreboard::update()
     for (int i = 0; i < MAXLIVES; i++)
     {
         if (i < m_rightLife)
-            m_strip->setPixelColor(i + m_rightBegin, 0xFF0000);
+            m_strip->setPixelColor(i + m_rightBegin, 0x0000FF);
         else
             m_strip->setPixelColor(i + m_rightBegin, 0);
         
         if (i < m_leftLife)
-            m_strip->setPixelColor(i + m_leftBegin, 0x0000FF);
+            m_strip->setPixelColor(i + m_leftBegin, 0xFF0000);
         else
             m_strip->setPixelColor(i + m_leftBegin, 0);
     }
